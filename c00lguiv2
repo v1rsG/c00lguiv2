@@ -178,7 +178,7 @@ Title.BackgroundTransparency = 1
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.Font = Enum.Font.SourceSansBold
 Title.TextSize = 24
-Title.Text = "c00lgui by c00lkidd"
+Title.Text = "c00lgui v2 by TCK"
 Title.Parent = Frame
 
 local backgroundImage = Instance.new("ImageLabel")
